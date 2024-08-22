@@ -2,24 +2,24 @@
 
 namespace LittleGiant\SingleObjectAdmin;
 
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Forms\Form;
 use SilverStripe\Admin\AdminRootController;
+use SilverStripe\Admin\LeftAndMain;
+use SilverStripe\CMS\Controllers\SilverStripeNavigator;
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\PjaxResponseNegotiator;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\Form;
+use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\HiddenField;
+use SilverStripe\Forms\LiteralField;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\ValidationException;
 use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Permission;
-use SilverStripe\Versioned\Versioned;
-use SilverStripe\Forms\HiddenField;
-use SilverStripe\CMS\Controllers\SilverStripeNavigator;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\FieldList;
-use SilverStripe\Forms\FormAction;
-use SilverStripe\Control\Controller;
-use SilverStripe\Control\PjaxResponseNegotiator;
-use SilverStripe\ORM\ValidationException;
-use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Security\PermissionProvider;
+use SilverStripe\Versioned\Versioned;
 
 /**
  * Defines the Single Object Administration interface for the CMS
@@ -172,7 +172,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
      *
      * @return DBHTMLText|string
      */
-    public function getSilverStripeNavigator()
+    public function getSilverStripeNavigator(?DataObject $record = null)
     {
         return $this->renderWith(SingleObjectAdmin::class . '_SilverStripeNavigator');
     }
@@ -180,7 +180,7 @@ class SingleObjectAdmin extends LeftAndMain implements PermissionProvider
     /**
      * @return PjaxResponseNegotiator
      */
-    public function getResponseNegotiator()
+    public function getResponseNegotiator() :PjaxResponseNegotiator
     {
         $neg = parent::getResponseNegotiator();
         $controller = $this;
